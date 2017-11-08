@@ -1,0 +1,274 @@
+<?php if(!isset($_GET['d'])) {
+    header("Location: ../");
+    die();
+} ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title><?php echo $_GET['d']; ?></title>
+
+    <link rel='stylesheet prefetch'
+          href='https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css' />
+    <link rel='stylesheet prefetch'
+          href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css' />
+    <link rel='stylesheet prefetch'
+          href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' />
+    <link rel='stylesheet prefetch'
+          href='https://fonts.googleapis.com/css?family=Lato' />
+
+    <link rel="stylesheet" href="css/style.css" />
+
+
+</head>
+
+<body data-device="<?php echo $_GET['d']; ?>">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4 class="card-title">Speed Test Logging <i class="fa fa-tachometer" aria-hidden="true"></i></h4>
+                    <p class="card-text"><?php echo $_GET['d']; ?></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4 class="card-title">Last Speed Test <i class="fa fa-clock-o" aria-hidden="true"></i></h4>
+                    <p class="card-text" id="last-time"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4 class="card-title" style="font-size:1.15rem;">Data provided by:</h4>
+                    <p class="card-text">
+                        <a href="https://unreal-designs.co.uk/" target="_blank">
+                            <img src="https://unreal-designs.co.uk/assets/images/logo-text_scaled.png" style="height:4rem;" />
+                            <sup><i class="fa fa-external-link" aria-hidden="true"></i></sup>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body warn text-center">
+                    <h4 class="card-title">Upload <i class="fa fa-upload" aria-hidden="true"></i></h4>
+                    <p class="card-text" id="last-up"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body success text-center">
+                    <h4 class="card-title">Download <i class="fa fa-download" aria-hidden="true"></i></h4>
+                    <p class="card-text" id="last-dl"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body info text-center">
+                    <h4 class="card-title">Ping <i class="fa fa-heartbeat" aria-hidden="true"></i></h4>
+                    <p class="card-text" id="last-ping"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <hr/>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center">
+        <div class="col-lg-6 col-md-12">
+            <div class="card">
+                <div class="card-body text-center" id="endpoints">
+                    <h4 class="card-title">Graph Date/Time Range <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </h4>
+                    <a href="javascript:changeEndpoint(0);" id="endpoint-0" class="btn btn-info">12hrs</a>
+                    <a href="javascript:changeEndpoint(1);" id="endpoint-1" class="btn btn-info">Day</a>
+                    <a href="javascript:changeEndpoint(2);" id="endpoint-2" class="btn btn-info">Two Days</a>
+                    <a href="javascript:changeEndpoint(3);" id="endpoint-3" class="btn btn-info">Week</a>
+                    <a href="javascript:changeEndpoint(4);" id="endpoint-4" class="btn btn-info">All</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4 class="card-title">Show/Hide Graphs <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                    </h4>
+                    <a href="javascript:$('#graphsDiv').fadeToggle();$('#graphsToggle').toggleClass('btn-primary').toggleClass('btn-info');" id="graphsToggle" class="btn btn-info">Toggle</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="graphsDiv">
+        <div class="col-lg-12 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Upload History (Mbps) <i class="fa fa-upload" aria-hidden="true"></i>
+                    </h4>
+                    <div id="upGraph" style="height: 370px; width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Download History (Mbps) <i class="fa fa-download" aria-hidden="true"></i></h4>
+                    <div id="dlGraph" style="height: 370px; width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Ping History (ms) <i class="fa fa-heartbeat" aria-hidden="true"></i></h4>
+                    <div id="pingGraph" style="height: 370px; width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <hr/>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center">
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4 class="card-title">Total Time Logged <i class="fa fa-clock-o" aria-hidden="true"></i></h4>
+                    <p class="card-text" id="avg-time"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4 class="card-title">Total Data Logged <i class="fa fa-clock-o" aria-hidden="true"></i></h4>
+                    <p class="card-text" id="avg-data"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4 class="card-title">Show/Hide Info <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                    </h4>
+                    <a href="javascript:$('#infoDiv').fadeToggle();$('#infoToggle').toggleClass('btn-primary').toggleClass('btn-info');" id="infoToggle" class="btn btn-info">Toggle</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="infoDiv">
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body info text-center">
+                    <h4 class="card-title">Average Upload <i class="fa fa-upload" aria-hidden="true"></i></h4>
+                    <p class="card-text" id="avg-up"></p>
+                    <p class="card-text small">(Top/Bottom 1% data excluded)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body info text-center">
+                    <h4 class="card-title">Average Download <i class="fa fa-download" aria-hidden="true"></i></h4>
+                    <p class="card-text" id="avg-dl"></p>
+                    <p class="card-text small">(Top/Bottom 1% data excluded)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body info text-center">
+                    <h4 class="card-title">Average Ping <i class="fa fa-heartbeat" aria-hidden="true"></i></h4>
+                    <p class="card-text" id="avg-ping"></p>
+                    <p class="card-text small">(Top/Bottom 1% data excluded)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body success text-center">
+                    <h4 class="card-title">Top Upload <i class="fa fa-upload" aria-hidden="true"></i></h4>
+                    <p class="card-text" id="top-up"></p>
+                    <p class="card-text small">(Top 1% data excluded)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body success text-center">
+                    <h4 class="card-title">Top Download <i class="fa fa-download" aria-hidden="true"></i></h4>
+                    <p class="card-text" id="top-dl"></p>
+                    <p class="card-text small">(Top 1% data excluded)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body success text-center">
+                    <h4 class="card-title">Top Ping <i class="fa fa-heartbeat" aria-hidden="true"></i></h4>
+                    <p class="card-text" id="top-ping"></p>
+                    <p class="card-text small">(Top 1% data excluded)</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body warn text-center">
+                    <h4 class="card-title">Bottom Upload <i class="fa fa-upload" aria-hidden="true"></i></h4>
+                    <p class="card-text" id="bottom-up"></p>
+                    <p class="card-text small">(Bottom 1% data excluded)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body warn text-center">
+                    <h4 class="card-title">Bottom Download <i class="fa fa-download" aria-hidden="true"></i></h4>
+                    <p class="card-text" id="bottom-dl"></p>
+                    <p class="card-text small">(Bottom 1% data excluded)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body warn text-center">
+                    <h4 class="card-title">Bottom Ping <i class="fa fa-heartbeat" aria-hidden="true"></i></h4>
+                    <p class="card-text" id="bottom-ping"></p>
+                    <p class="card-text small">(Bottom 1% data excluded)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.0/moment.js'></script>
+
+    <script src="js/index.js"></script>
+
+</body>
+</html>
