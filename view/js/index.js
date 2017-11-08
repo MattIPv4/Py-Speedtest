@@ -14,7 +14,8 @@ var chartUp = new CanvasJS.Chart("upGraph", {
         gridThickness: 1,
     },
     data: [{
-        type: "spline",
+        //type: "spline",
+        type: "line",
         dataPoints: dataUp
     }],
     creditText: "",
@@ -30,7 +31,8 @@ var chartDl = new CanvasJS.Chart("dlGraph", {
         gridThickness: 1,
     },
     data: [{
-        type: "spline",
+        //type: "spline",
+        type: "line",
         dataPoints: dataDl
     }],
     creditText: "",
@@ -46,7 +48,8 @@ var chartPing = new CanvasJS.Chart("pingGraph", {
         gridThickness: 1,
     },
     data: [{
-        type: "spline",
+        //type: "spline",
+        type: "line",
         dataPoints: dataPing
     }],
     creditText: "",
