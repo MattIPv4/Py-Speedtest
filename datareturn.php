@@ -1,6 +1,6 @@
 <?php
 
-require_once('../../basicUtils.php');
+require_once('../basicUtils.php');
 extract(setup_cdnRes($_SERVER));
 
 require_once('config.php');
