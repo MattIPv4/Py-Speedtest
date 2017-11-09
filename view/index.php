@@ -86,6 +86,7 @@
 
     <div class="row">
         <div class="col-lg-12 col-md-12">
+            <p>Note: Zero values are excluded from logging.</p>
             <hr/>
         </div>
     </div>
