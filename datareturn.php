@@ -13,6 +13,12 @@ if(isset($_POST['device']) && isset($_POST['datetime']) && isset($_POST['ping'])
         die();
     }
 
+    if(in_array(0, [$_POST['ping'], $_POST['download'], $_POST['upload']])) {
+        header('HTTP/1.0 400 Bad Request');
+        echo 'Data Upload: Zero value included, upload ignored.';
+        die();
+    }
+
     $pdo = new PDO(
         'mysql:host=localhost;dbname=server_speeds',
         PDO_USER,
