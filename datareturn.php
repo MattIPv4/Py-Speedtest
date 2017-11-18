@@ -13,7 +13,7 @@ if(isset($_POST['device']) && isset($_POST['datetime']) && isset($_POST['ping'])
         die();
     }
 
-    if(in_array(0, [$_POST['ping'], $_POST['download'], $_POST['upload']])) {
+    if(in_array(0, [round($_POST['download']/1000000), round($_POST['upload']/1000000)])) {
         header('HTTP/1.0 400 Bad Request');
         echo 'Data Upload: Zero value included, upload ignored.';
         die();
