@@ -2,7 +2,7 @@ var dataUp = [];
 var dataDl = [];
 var dataPing = [];
 var currentEndpoint = 2;
-var endpoint = "https://cdn.unreal-designs.co.uk/cont/pyspeedtest/view/fetch.php";
+var endpoint = "<?php echo base64_encode((isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"] . "/fetch.php"); ?>";
 var device = $("body").attr("data-device");
 
 var chartUp = new CanvasJS.Chart("upGraph", {
@@ -11,16 +11,15 @@ var chartUp = new CanvasJS.Chart("upGraph", {
         includeZero: false,
         suffix: " Mbps",
         gridColor: "#CCD1D9",
-        gridThickness: 1,
+        gridThickness: 1
     },
     data: [{
-        //type: "spline",
         type: "line",
         dataPoints: dataUp
     }],
     creditText: "",
     creditHref: "",
-    backgroundColor: "transparent",
+    backgroundColor: "transparent"
 });
 var chartDl = new CanvasJS.Chart("dlGraph", {
     theme: "light2",
@@ -28,16 +27,15 @@ var chartDl = new CanvasJS.Chart("dlGraph", {
         includeZero: false,
         suffix: " Mbps",
         gridColor: "#CCD1D9",
-        gridThickness: 1,
+        gridThickness: 1
     },
     data: [{
-        //type: "spline",
         type: "line",
         dataPoints: dataDl
     }],
     creditText: "",
     creditHref: "",
-    backgroundColor: "transparent",
+    backgroundColor: "transparent"
 });
 var chartPing = new CanvasJS.Chart("pingGraph", {
     theme: "light2",
@@ -45,16 +43,15 @@ var chartPing = new CanvasJS.Chart("pingGraph", {
         includeZero: false,
         suffix: "ms",
         gridColor: "#CCD1D9",
-        gridThickness: 1,
+        gridThickness: 1
     },
     data: [{
-        //type: "spline",
         type: "line",
         dataPoints: dataPing
     }],
     creditText: "",
     creditHref: "",
-    backgroundColor: "transparent",
+    backgroundColor: "transparent"
 });
 
 function addData(data) {
@@ -81,31 +78,51 @@ function addData(data) {
     chartUp.render();
     chartDl.render();
     chartPing.render();
-
 }
 
-endpoint = endpoint+"?device="+device;
+var endpointExt = "?device="+window.atob(device)+"&time=";
 var endpoints = [
-    endpoint+"&time=12",
-    endpoint+"&time=24",
-    endpoint+"&time=48",
-    endpoint+"&time=168",
-    endpoint+"&time=all",
+    endpointExt+"12",
+    endpointExt+"24",
+    endpointExt+"48",
+    endpointExt+"168",
+    endpointExt+"all"
 ];
 
+function getEndpointURL(index) {
+    var thisEndpoint = "";
+    switch(index) {
+        case "c":
+            thisEndpoint = endpointExt+"current";
+            break;
+        case "a":
+            thisEndpoint = endpointExt+"average";
+            break;
+        case "t":
+            thisEndpoint = endpointExt+"top";
+            break;
+        case "b":
+            thisEndpoint = endpointExt+"bottom";
+            break;
+        default:
+            thisEndpoint = endpoints[index];
+            break;
+    }
+    return window.btoa(window.atob(endpoint)+thisEndpoint+"&_="+Date.now());
+}
+
 function getEndpoint(index) {
-    $.getJSON(endpoints[index]+"&_="+Date.now(), addData);
+    $.getJSON(window.atob(getEndpointURL(index)), addData);
 }
 
 function changeEndpoint(index) {
-    currentEndpoint = index;
-    getEndpoint(currentEndpoint);
+    getEndpoint(index);
     $("#endpoints .btn").removeClass("btn-primary").addClass("btn-info");
-    $("#endpoint-"+currentEndpoint).removeClass("btn-info").addClass("btn-primary");
+    $("#endpoint-"+index).removeClass("btn-info").addClass("btn-primary");
 }
 
 function updateCurrent() {
-    $.getJSON(endpoint+"&time=current&_="+Date.now(), function (data) {
+    $.getJSON(window.atob(getEndpointURL("c")), function (data) {
         var date = moment(data.datetime);
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         $("#last-time").html(date.hours() + ":" + ('0' + date.minutes()).slice(-2) + " " + months[date.month()] + ". " + date.date());
@@ -113,7 +130,7 @@ function updateCurrent() {
         $("#last-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup>");
         $("#last-ping").html((Math.round(data.ping * 10) / 10) + "<sup>ms</sup>");
     });
-    $.getJSON(endpoint+"&time=average&_="+Date.now(), function (data) {
+    $.getJSON(window.atob(getEndpointURL("a")), function (data) {
         var hours = Math.floor(data.datetimestamp / 3600);
         var minutes = Math.floor((data.datetimestamp-(hours*3600)) / 60);
         $("#avg-time").html(hours + "<sup>hrs</sup> " + minutes + "<sup>mins</sup>");
@@ -123,12 +140,12 @@ function updateCurrent() {
         $("#avg-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup>");
         $("#avg-ping").html((Math.round(data.ping * 10) / 10) + "<sup>ms</sup>");
     });
-    $.getJSON(endpoint+"&time=top&_="+Date.now(), function (data) {
+    $.getJSON(window.atob(getEndpointURL("t")), function (data) {
         $("#top-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup>");
         $("#top-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup>");
         $("#top-ping").html((Math.round(data.ping * 10) / 10) + "<sup>ms</sup>");
     });
-    $.getJSON(endpoint+"&time=bottom&_="+Date.now(), function (data) {
+    $.getJSON(window.atob(getEndpointURL("b")), function (data) {
         $("#bottom-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup>");
         $("#bottom-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup>");
         $("#bottom-ping").html((Math.round(data.ping * 10) / 10) + "<sup>ms</sup>");

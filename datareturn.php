@@ -9,18 +9,16 @@ if(isset($_POST['device']) && isset($_POST['datetime']) && isset($_POST['ping'])
 
     if(!in_array($_POST['device'], AUTHED_DEVICES)) {
         header('HTTP/1.0 401 Unauthorized');
-        echo 'Data Upload: Device name not authorized.';
-        die();
+        die('Data Upload: Device name not authorized.');
     }
 
     if(in_array(0, [round($_POST['download']/1000000), round($_POST['upload']/1000000)])) {
         header('HTTP/1.0 400 Bad Request');
-        echo 'Data Upload: Zero value included, upload ignored.';
-        die();
+        die('Data Upload: Zero value included, upload ignored.');
     }
 
     $pdo = new PDO(
-        'mysql:host=localhost;dbname=server_speeds',
+        'mysql:host='.PDO_HOST.';dbname=server_speeds',
         PDO_USER,
         PDO_PASS);
 
@@ -32,18 +30,15 @@ if(isset($_POST['device']) && isset($_POST['datetime']) && isset($_POST['ping'])
         $stmt->execute($data);
     } catch (Exception $e) {
         header('HTTP/1.0 500 Internal Server Error');
-        echo 'Data Upload: Caught exception.';
-        die();
+        die('Data Upload: Caught exception.');
     }
 
     header('HTTP/1.0 201 Created');
-    echo 'Data Upload: Success';
-    die();
+    die('Data Upload: Success');
 
 } else {
     header('HTTP/1.0 400 Bad Request');
-    echo 'Data Upload: Missing data.';
-    die();
+    die('Data Upload: Missing data.');
 }
 
 ?>

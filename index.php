@@ -1,13 +1,18 @@
-<?php if(!isset($_GET['d'])) {
-    header("Location: ../");
-    die();
-} ?>
+<?php
+require_once('config.php');
+
+$device = trim(trim(explode("?", $_SERVER['REQUEST_URI'])[0], "/"), " ");
+if(!in_array($device, AUTHED_DEVICES)) {
+    header("HTTP/1.0 403 Forbidden");
+    die("Device '".$device."' not known.");
+}
+?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title><?php echo $_GET['d']; ?></title>
+    <title><?php echo $device; ?></title>
 
     <link rel='stylesheet prefetch'
           href='https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css' />
@@ -20,17 +25,16 @@
 
     <link rel="stylesheet" href="css/style.css" />
 
-
 </head>
 
-<body data-device="<?php echo $_GET['d']; ?>">
+<body data-device="<?php echo base64_encode($device); ?>">
 <div class="container">
     <div class="row">
         <div class="col-lg-4 col-md-12">
             <div class="card">
                 <div class="card-body text-center">
                     <h4 class="card-title">Speed Test Logging <i class="fa fa-tachometer" aria-hidden="true"></i></h4>
-                    <p class="card-text"><?php echo $_GET['d']; ?></p>
+                    <p class="card-text"><?php echo $device; ?></p>
                 </div>
             </div>
         </div>
@@ -269,7 +273,7 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.0/moment.js'></script>
 
-    <script src="js/index.js"></script>
+    <script src="js/index.js.php"></script>
 
 </body>
 </html>

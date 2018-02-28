@@ -1,16 +1,13 @@
 <?php
 
-require_once('../../basicUtils.php');
-extract(setup_cdnRes($_SERVER));
-
-require_once('../config.php');
+require_once('config.php');
 
 if(!isset($_GET['device']) || !isset($_GET['time'])) {
     die();
 }
 
 $pdo = new PDO(
-    'mysql:host=localhost;dbname=server_speeds',
+    'mysql:host='.PDO_HOST.';dbname=server_speeds',
     PDO_USER,
     PDO_PASS);
 
