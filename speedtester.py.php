@@ -6,7 +6,7 @@ header('Expires: 0');
 header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 header('Pragma: public');
 ?>
-from datetime.datetime import now; from pip import main as pipmain; from platform import node; from base64 import b64decode
+from datetime import datetime; from pip import main as pipmain; from platform import node; from base64 import b64decode
 
 # Import/Install requests
 try:
@@ -47,7 +47,7 @@ print("Device: {}\nUpload: {}\nDownload: {}\nPing: {}\n".format(
 ))
 
 # Create new data
-d = now().strftime("%Y%m%d%H%M%S")
+d = datetime.now().strftime("%Y%m%d%H%M%S")
 newdata = {'device': node(), 'datetime': d, 'ping': ping, 'download': download, 'upload': upload}
 
 # Post data

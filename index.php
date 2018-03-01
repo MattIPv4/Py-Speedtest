@@ -6,6 +6,9 @@ if(strtolower($device)=="speedtester") {
     require_once "speedtester.py.php";
     die();
 }
+if(empty($device)) {
+    die('Please specify a device in the URI to load speed test data.');
+}
 if(!in_array($device, AUTHED_DEVICES)) {
     header("HTTP/1.0 403 Forbidden");
     die("Device '".$device."' not known.");
