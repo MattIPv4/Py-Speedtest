@@ -38,7 +38,7 @@ if(!in_array($device, AUTHED_DEVICES)) {
           href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' />
     <link rel='stylesheet prefetch'
           href='https://fonts.googleapis.com/css?family=Lato' />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body data-device="<?php echo base64_encode($device); ?>">
