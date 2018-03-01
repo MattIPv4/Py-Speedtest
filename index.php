@@ -23,6 +23,12 @@ if(!in_array($device, AUTHED_DEVICES)) {
     <meta name="theme-color" content="#164d87" />
     <meta name="title" content="<?php echo $device; ?> Speed Tests" />
     <meta name="description" content="View the latest, average and historical speed test data for <?php echo $device; ?>."/>
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:site" content="<?php echo ((isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"]); ?>"/>
+    <meta name="twitter:url" content="<?php echo ((isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"]); ?>"/>
+    <meta name="twitter:creator" content="@Unreal_Designs"/>
+    <meta name="twitter:title" content="<?php echo $device; ?> Speed Tests"/>
+    <meta name="twitter:description" content="View the latest, average and historical speed test data for <?php echo $device; ?>."/>
 
     <link rel='stylesheet prefetch'
           href='https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css' />
