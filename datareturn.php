@@ -1,8 +1,5 @@
 <?php
 
-require_once('../basicUtils.php');
-extract(setup_cdnRes($_SERVER));
-
 require_once('config.php');
     
 if(isset($_POST['device']) && isset($_POST['datetime']) && isset($_POST['ping']) && isset($_POST['download']) && isset($_POST['upload'])) {
