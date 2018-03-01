@@ -2,6 +2,10 @@
 require_once('config.php');
 
 $device = trim(trim(explode("?", $_SERVER['REQUEST_URI'])[0], "/"), " ");
+if(strtolower($device)=="speedtester") {
+    require_once "speedtester.py.php";
+    die();
+}
 if(!in_array($device, AUTHED_DEVICES)) {
     header("HTTP/1.0 403 Forbidden");
     die("Device '".$device."' not known.");
@@ -12,7 +16,10 @@ if(!in_array($device, AUTHED_DEVICES)) {
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title><?php echo $device; ?></title>
+    <title><?php echo $device; ?> Speed Tests</title>
+    <meta name="theme-color" content="#164d87" />
+    <meta name="title" content="<?php echo $device; ?> Speed Tests" />
+    <meta name="description" content="View the latest, average and historical speed test data for <?php echo $device; ?>."/>
 
     <link rel='stylesheet prefetch'
           href='https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css' />
@@ -22,9 +29,7 @@ if(!in_array($device, AUTHED_DEVICES)) {
           href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' />
     <link rel='stylesheet prefetch'
           href='https://fonts.googleapis.com/css?family=Lato' />
-
     <link rel="stylesheet" href="css/style.css" />
-
 </head>
 
 <body data-device="<?php echo base64_encode($device); ?>">
