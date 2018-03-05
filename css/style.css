@@ -4,7 +4,7 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: 'Lato', sans-serif;
-    background: #434A54;
+    background: #212529;
     color: #fff;
 }
 
@@ -17,10 +17,9 @@ hr {
 }
 
 .card {
-    color: #434A54;
     border-radius: 5px;
     box-shadow: 9px 7px 40px -6px rgba(0, 0, 0, 0.25);
-    background: #656D78;
+    background: #434A54;
     border: none;
     margin-bottom: 10px;
 }
@@ -30,16 +29,16 @@ hr {
 }
 
 .card-body.warn {
-    background: -webkit-linear-gradient(top, rgba(237,85,101, 0) 85%, rgba(237,85,101, 0.5) 100%);
-    background: linear-gradient(to bottom, rgba(237,85,101, 0) 85%, rgba(237,85,101, 0.5) 100%);
+    background: -webkit-linear-gradient(top, rgba(237,85,101, 0.25) 85%, rgba(237,85,101, 0.75) 100%);
+    background: linear-gradient(to bottom, rgba(237,85,101, 0.25) 85%, rgba(237,85,101, 0.75) 100%);
 }
 .card-body.success {
-    background: -webkit-linear-gradient(top, rgba(160,212,104, 0) 85%, rgba(160,212,104, 0.5) 100%);
-    background: linear-gradient(to bottom, rgba(160,212,104, 0) 85%, rgba(160,212,104, 0.5) 100%);
+    background: -webkit-linear-gradient(top, rgba(160,212,104, 0.25) 85%, rgba(160,212,104, 0.75) 100%);
+    background: linear-gradient(to bottom, rgba(160,212,104, 0.25) 85%, rgba(160,212,104, 0.75) 100%);
 }
 .card-body.info {
-    background: -webkit-linear-gradient(top, rgba(79,193,233, 0) 85%, rgba(79,193,233, 0.5) 100%);
-    background: linear-gradient(to bottom, rgba(79,193,233, 0) 85%, rgba(79,193,233, 0.5) 100%);
+    background: -webkit-linear-gradient(top, rgba(79,193,233, 0.25) 85%, rgba(79,193,233, 0.75) 100%);
+    background: linear-gradient(to bottom, rgba(79,193,233, 0.25) 85%, rgba(79,193,233, 0.75) 100%);
 }
 
 .card p {
