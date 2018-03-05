@@ -4,17 +4,8 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: 'Lato', sans-serif;
-}
-
-html {
-    background: #fff;
-}
-
-body {
-    background: #E0EAFC; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #CFDEF3, #E0EAFC); /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(left, #CFDEF3, #E0EAFC);
-    background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #434A54;
+    color: #fff;
 }
 
 hr {
@@ -29,28 +20,26 @@ hr {
     color: #434A54;
     border-radius: 5px;
     box-shadow: 9px 7px 40px -6px rgba(0, 0, 0, 0.25);
-    background-color: rgba(235, 235, 235, 0.8);
+    background: #656D78;
     border: none;
     margin-bottom: 10px;
 }
 
 .card-body {
     border-radius: 5px;
-    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
 }
 
 .card-body.warn {
-    background: -webkit-linear-gradient(top, rgba(237,85,101, 0) 75%, rgba(237,85,101, 0.5) 100%);
-    background: linear-gradient(to bottom, rgba(237,85,101, 0) 75%, rgba(237,85,101, 0.5) 100%);
+    background: -webkit-linear-gradient(top, rgba(237,85,101, 0) 85%, rgba(237,85,101, 0.5) 100%);
+    background: linear-gradient(to bottom, rgba(237,85,101, 0) 85%, rgba(237,85,101, 0.5) 100%);
 }
 .card-body.success {
-    background: -webkit-linear-gradient(top, rgba(160,212,104, 0) 75%, rgba(160,212,104, 0.5) 100%);
-    background: linear-gradient(to bottom, rgba(160,212,104, 0) 75%, rgba(160,212,104, 0.5) 100%);
+    background: -webkit-linear-gradient(top, rgba(160,212,104, 0) 85%, rgba(160,212,104, 0.5) 100%);
+    background: linear-gradient(to bottom, rgba(160,212,104, 0) 85%, rgba(160,212,104, 0.5) 100%);
 }
 .card-body.info {
-    background: -webkit-linear-gradient(top, rgba(79,193,233, 0) 75%, rgba(79,193,233, 0.5) 100%);
-    background: linear-gradient(to bottom, rgba(79,193,233, 0) 75%, rgba(79,193,233, 0.5) 100%);
+    background: -webkit-linear-gradient(top, rgba(79,193,233, 0) 85%, rgba(79,193,233, 0.5) 100%);
+    background: linear-gradient(to bottom, rgba(79,193,233, 0) 85%, rgba(79,193,233, 0.5) 100%);
 }
 
 .card p {
