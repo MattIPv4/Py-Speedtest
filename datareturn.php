@@ -4,14 +4,14 @@ require_once('config.php');
     
 if(isset($_POST['device']) && isset($_POST['datetime']) && isset($_POST['ping']) && isset($_POST['download']) && isset($_POST['upload'])) {
 
-    if(!in_array($_POST['device'], AUTHED_DEVICES)) {
+    if(!in_array(trim($_POST['device']), AUTHED_DEVICES)) {
         header('HTTP/1.0 401 Unauthorized');
-        die('Data Upload: Device name not authorized.');
+        die('Device name \''.trim($_POST['device']).'\' not authorized.');
     }
 
     if(in_array(0, [round($_POST['download']/1000000), round($_POST['upload']/1000000)])) {
         header('HTTP/1.0 400 Bad Request');
-        die('Data Upload: Zero value included, upload ignored.');
+        die('Zero value included.');
     }
 
     $pdo = new PDO(
@@ -27,15 +27,15 @@ if(isset($_POST['device']) && isset($_POST['datetime']) && isset($_POST['ping'])
         $stmt->execute($data);
     } catch (Exception $e) {
         header('HTTP/1.0 500 Internal Server Error');
-        die('Data Upload: Caught exception.');
+        die('Caught exception.');
     }
 
     header('HTTP/1.0 201 Created');
-    die('Data Upload: Success');
+    die('Success.');
 
 } else {
     header('HTTP/1.0 400 Bad Request');
-    die('Data Upload: Missing data.');
+    die('Missing data in request.');
 }
 
 ?>

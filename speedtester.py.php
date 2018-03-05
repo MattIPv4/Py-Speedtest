@@ -39,8 +39,8 @@ download = results['download']
 ping = results['ping']
 
 # Print data
-print("Device: {}\nUpload: {}\nDownload: {}\nPing: {}\n".format(
-    node(),
+print("Device: '{}'\nUpload: {}\nDownload: {}\nPing: {}\n".format(
+    node().strip(),
     upload,
     download,
     ping
@@ -48,9 +48,9 @@ print("Device: {}\nUpload: {}\nDownload: {}\nPing: {}\n".format(
 
 # Create new data
 d = datetime.now().strftime("%Y%m%d%H%M%S")
-newdata = {'device': node(), 'datetime': d, 'ping': ping, 'download': download, 'upload': upload}
+newdata = {'device': node().strip(), 'datetime': d, 'ping': ping, 'download': download, 'upload': upload}
 
 # Post data
 r = post(b64decode('<?php echo base64_encode((isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"] . "/datareturn.php"); ?>'), data = newdata)
-print(r.text)
+print("Data Upload: {}".format(r.text))
 <?php die(); ?>
