@@ -132,8 +132,8 @@ function updateCurrent() {
         var date = moment(data.datetime);
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         $("#last-time").html(date.hours() + ":" + ('0' + date.minutes()).slice(-2) + " " + months[date.month()] + ". " + date.date());
-        $("#last-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.upload / 8) * 10) / 10) + " MB/s)");
-        $("#last-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.download / 8) * 10) / 10) + " MB/s)");
+        $("#last-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup><br/>(" + (Math.round((data.upload / 8) * 10) / 10) + " <sup>MB/s</sup>)");
+        $("#last-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup><br/>(" + (Math.round((data.download / 8) * 10) / 10) + " <sup>MB/s</sup>)");
         $("#last-ping").html((Math.round(data.ping * 10) / 10) + "<sup>ms</sup>");
     });
     $.getJSON(window.atob(getEndpointURL("a")), function (data) {
@@ -142,18 +142,18 @@ function updateCurrent() {
         $("#avg-time").html(hours + "<sup>hrs</sup> " + minutes + "<sup>mins</sup>");
         $("#avg-data").html(data.size + " <sup>datapoints</sup>");
 
-        $("#avg-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.upload / 8) * 10) / 10) + " MB/s)");
-        $("#avg-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.download / 8) * 10) / 10) + " MB/s)");
+        $("#avg-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup><br/>(" + (Math.round((data.upload / 8) * 10) / 10) + " <sup>MB/s</sup>)");
+        $("#avg-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup><br/>(" + (Math.round((data.download / 8) * 10) / 10) + " <sup>MB/s</sup>)");
         $("#avg-ping").html((Math.round(data.ping * 10) / 10) + "<sup>ms</sup>");
     });
     $.getJSON(window.atob(getEndpointURL("t")), function (data) {
-        $("#top-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.upload / 8) * 10) / 10) + " MB/s)");
-        $("#top-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.download / 8) * 10) / 10) + " MB/s)");
+        $("#top-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup><br/>(" + (Math.round((data.upload / 8) * 10) / 10) + " <sup>MB/s</sup>)");
+        $("#top-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup><br/>(" + (Math.round((data.download / 8) * 10) / 10) + " <sup>MB/s</sup>)");
         $("#top-ping").html((Math.round(data.ping * 10) / 10) + "<sup>ms</sup>");
     });
     $.getJSON(window.atob(getEndpointURL("b")), function (data) {
-        $("#bottom-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.upload / 8) * 10) / 10) + " MB/s)");
-        $("#bottom-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.download / 8) * 10) / 10) + " MB/s)");
+        $("#bottom-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup><br/>(" + (Math.round((data.upload / 8) * 10) / 10) + " <sup>MB/s</sup>)");
+        $("#bottom-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup><br/>(" + (Math.round((data.download / 8) * 10) / 10) + " <sup>MB/s</sup>)");
         $("#bottom-ping").html((Math.round(data.ping * 10) / 10) + "<sup>ms</sup>");
     });
 }
