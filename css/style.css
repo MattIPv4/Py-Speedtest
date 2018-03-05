@@ -29,16 +29,16 @@ hr {
 }
 
 .card-body.warn {
-    background: -webkit-linear-gradient(top, rgba(237,85,101, 0.25) 85%, rgba(237,85,101, 0.75) 100%);
-    background: linear-gradient(to bottom, rgba(237,85,101, 0.25) 85%, rgba(237,85,101, 0.75) 100%);
+    background: -webkit-linear-gradient(top, transparent 94%, #DA4453 95%, #DA4453 100%);
+    background: linear-gradient(to bottom, transparent 94%, #DA4453 95%, #DA4453 100%);
 }
 .card-body.success {
-    background: -webkit-linear-gradient(top, rgba(160,212,104, 0.25) 85%, rgba(160,212,104, 0.75) 100%);
-    background: linear-gradient(to bottom, rgba(160,212,104, 0.25) 85%, rgba(160,212,104, 0.75) 100%);
+    background: -webkit-linear-gradient(top, transparent 94%, #37BC9B 95%, #37BC9B 100%);
+    background: linear-gradient(to bottom, transparent 94%, #37BC9B 95%, #37BC9B 100%);
 }
 .card-body.info {
-    background: -webkit-linear-gradient(top, rgba(79,193,233, 0.25) 85%, rgba(79,193,233, 0.75) 100%);
-    background: linear-gradient(to bottom, rgba(79,193,233, 0.25) 85%, rgba(79,193,233, 0.75) 100%);
+    background: -webkit-linear-gradient(top, transparent 94%, #3BAFDA 95%, #3BAFDA 100%);
+    background: linear-gradient(to bottom, transparent 94%, #3BAFDA 95%, #3BAFDA 100%);
 }
 
 .card p {
