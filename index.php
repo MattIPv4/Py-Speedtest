@@ -1,17 +1,27 @@
 <?php
 require_once('config.php');
 
-$device = trim(trim(explode("?", $_SERVER['REQUEST_URI'])[0], "/"), " ");
-if(strtolower($device)=="speedtester"||strtolower($device)=="speedtester.py") {
+$request = trim(trim(explode("?", $_SERVER['REQUEST_URI'])[0], "/"), " ");
+if(strtolower($request)=="speedtester"||strtolower($request)=="speedtester.py") {
     require_once "speedtester.py.php";
     die();
 }
-if(empty($device)) {
+if(strtolower($request)=="authed") {
+    $ip = $_SERVER['HTTP_CLIENT_IP']?:($_SERVER['HTTP_X_FORWARDE‌​D_FOR']?:$_SERVER['REMOTE_ADDR']);
+    if(in_array($ip, [$_SERVER['SERVER_ADDR'], '::1', '127.0.0.1'])) {
+        die(implode(", ", array_map(function($x){return "'".$x."'";}, AUTHED_DEVICES)));
+    } else {
+        header('HTTP/1.0 401 Unauthorized');
+        die('This route is localhost only. Requested from \''.$ip.'\'.');
+    }
+}
+if(empty($request)) {
+    header('HTTP/1.0 400 Bad Request');
     die('Please specify a device in the URI to load speed test data.');
 }
-if(!in_array(trim($device), AUTHED_DEVICES)) {
+if(!in_array(trim($request), AUTHED_DEVICES)) {
     header("HTTP/1.0 403 Forbidden");
-    die("Device '".$device."' not known.");
+    die("Device '".$request."' not known.");
 }
 ?>
 
