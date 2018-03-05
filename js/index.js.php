@@ -59,13 +59,19 @@ function addData(data) {
     dataDl = [];
     dataPing = [];
     for (var i = 0; i < data.length; i++) {
+        var bitsup = Math.round(data[i].upload * 10) / 10
+        var bytesup = Math.round((data[i].upload / 8 ) * 10) / 10
+        var bitsdown = Math.round(data[i].download * 10) / 10
+        var bytesdown = Math.round((data[i].download / 8 ) * 10) / 10
         dataUp.push({
             x: moment(data[i].datetime).toDate(),
-            y: Math.round(data[i].upload * 10) / 10
+            y: bitsup,
+            toolTipContent: bitsup + "Mbps (" + bytesup + " MB/s)"
         });
         dataDl.push({
             x: moment(data[i].datetime).toDate(),
-            y: Math.round(data[i].download * 10) / 10
+            y: bitsdown,
+            toolTipContent: bitsdown + "Mbps (" + bytesdown + " MB/s)"
         });
         dataPing.push({
             x: moment(data[i].datetime).toDate(),
@@ -126,8 +132,8 @@ function updateCurrent() {
         var date = moment(data.datetime);
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         $("#last-time").html(date.hours() + ":" + ('0' + date.minutes()).slice(-2) + " " + months[date.month()] + ". " + date.date());
-        $("#last-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup>");
-        $("#last-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup>");
+        $("#last-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.upload / 8) * 10) / 10) + " MB/s)");
+        $("#last-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.download / 8) * 10) / 10) + " MB/s)");
         $("#last-ping").html((Math.round(data.ping * 10) / 10) + "<sup>ms</sup>");
     });
     $.getJSON(window.atob(getEndpointURL("a")), function (data) {
@@ -136,18 +142,18 @@ function updateCurrent() {
         $("#avg-time").html(hours + "<sup>hrs</sup> " + minutes + "<sup>mins</sup>");
         $("#avg-data").html(data.size + " <sup>datapoints</sup>");
 
-        $("#avg-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup>");
-        $("#avg-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup>");
+        $("#avg-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.upload / 8) * 10) / 10) + " MB/s)");
+        $("#avg-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.download / 8) * 10) / 10) + " MB/s)");
         $("#avg-ping").html((Math.round(data.ping * 10) / 10) + "<sup>ms</sup>");
     });
     $.getJSON(window.atob(getEndpointURL("t")), function (data) {
-        $("#top-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup>");
-        $("#top-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup>");
+        $("#top-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.upload / 8) * 10) / 10) + " MB/s)");
+        $("#top-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.download / 8) * 10) / 10) + " MB/s)");
         $("#top-ping").html((Math.round(data.ping * 10) / 10) + "<sup>ms</sup>");
     });
     $.getJSON(window.atob(getEndpointURL("b")), function (data) {
-        $("#bottom-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup>");
-        $("#bottom-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup>");
+        $("#bottom-up").html((Math.round(data.upload * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.upload / 8) * 10) / 10) + " MB/s)");
+        $("#bottom-dl").html((Math.round(data.download * 10) / 10) + " <sup>Mbps</sup> (" + (Math.round((data.download / 8) * 10) / 10) + " MB/s)");
         $("#bottom-ping").html((Math.round(data.ping * 10) / 10) + "<sup>ms</sup>");
     });
 }

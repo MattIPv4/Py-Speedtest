@@ -138,7 +138,7 @@ if(!in_array($device, AUTHED_DEVICES)) {
         <div class="col-lg-12 col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Upload History (Mbps) <i class="fa fa-upload" aria-hidden="true"></i>
+                    <h4 class="card-title">Upload History <i class="fa fa-upload" aria-hidden="true"></i>
                     </h4>
                     <div id="upGraph" style="height: 370px; width: 100%;"></div>
                 </div>
@@ -147,7 +147,7 @@ if(!in_array($device, AUTHED_DEVICES)) {
         <div class="col-lg-12 col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Download History (Mbps) <i class="fa fa-download" aria-hidden="true"></i></h4>
+                    <h4 class="card-title">Download History <i class="fa fa-download" aria-hidden="true"></i></h4>
                     <div id="dlGraph" style="height: 370px; width: 100%;"></div>
                 </div>
             </div>
@@ -155,7 +155,7 @@ if(!in_array($device, AUTHED_DEVICES)) {
         <div class="col-lg-12 col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Ping History (ms) <i class="fa fa-heartbeat" aria-hidden="true"></i></h4>
+                    <h4 class="card-title">Ping History <i class="fa fa-heartbeat" aria-hidden="true"></i></h4>
                     <div id="pingGraph" style="height: 370px; width: 100%;"></div>
                 </div>
             </div>
