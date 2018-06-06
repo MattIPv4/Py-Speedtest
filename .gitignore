@@ -1,2 +1,4 @@
 config.php
 .idea/
+.user.ini
+web.config
