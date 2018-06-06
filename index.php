@@ -114,7 +114,12 @@ if(!in_array(trim($request), AUTHED_DEVICES)) {
 
     <div class="row">
         <div class="col-lg-12 col-md-12">
-            <p>Note: Zero values are excluded from logging.</p>
+            <p>
+                This is a private speed testing and logging service.
+                It uses the 'speedtest-cli' Python library for gathering speed data.
+                You can view most of the source code on <a href="https://github.com/MattIPv4/Py-Speedtest" target="_blank">GitHub</a>.
+                Zero values are excluded from logging to reduce false data logging.
+            </p>
             <hr/>
         </div>
     </div>
