@@ -3,7 +3,7 @@
 require_once('config.php');
 
 if(!isset($_GET['device']) || !isset($_GET['time'])) {
-    die();
+    die('Missing url params');
 }
 
 $pdo = new PDO(
@@ -19,11 +19,11 @@ try {
 
 } catch (Exception $e) {
     //echo 'Data Export: Get Unique: Caught exception: ',  $e->getMessage();
-    die();
+    die('Device DB fetch failure');
 }
 
 if(!in_array($_GET['device'], $devices)) {
-    die();
+    die('Device not known');
 }
 
 try {
@@ -113,7 +113,7 @@ try {
 
 } catch (Exception $e) {
     //echo 'Data Export: Get Data: Caught exception: ',  $e->getMessage();
-    die();
+    die('Get failure');
 }
 
 header('Content-Type: application/json');

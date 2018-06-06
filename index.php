@@ -23,6 +23,7 @@ if(!in_array(trim($request), AUTHED_DEVICES)) {
     header("HTTP/1.0 403 Forbidden");
     die("Device '".$request."' not known.");
 }
+$device = $request;
 ?>
 
 <!DOCTYPE html>
