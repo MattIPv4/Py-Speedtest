@@ -47,7 +47,7 @@ print("Device: '{}'\nUpload: {}\nDownload: {}\nPing: {}\n".format(
 ))
 
 # Create new data
-d = datetime.now().strftime("%Y%m%d%H%M%S")
+d = datetime.utcnow().strftime("%Y%m%d%H%M%S")
 newdata = {'device': node().strip(), 'datetime': d, 'ping': ping, 'download': download, 'upload': upload}
 
 # Post data
