@@ -1,11 +1,11 @@
-<?php
+"""<?php
 header('Content-Description: File Transfer');
 header('Content-Type: application/octet-stream');
 header('Content-Disposition: attachment; filename="speedtester.py"');
 header('Expires: 0');
 header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 header('Pragma: public');
-?>
+?>"""
 from datetime import datetime; from pip import main as pipmain; from platform import node; from base64 import b64decode
 
 # Import/Install requests
@@ -25,17 +25,23 @@ finally:
     import speedtest
 
 # Begin speed test
-print("Commencing speedtest")
 attempts = 5
+print("Commencing speedtest with {:,} attempts".format(attempts))
 upload = []
 download = []
 ping = []
 
-for attempt in attempts:
+# Get servers
+st = speedtest.Speedtest()
+servers = [f['id'] for f in st.get_closest_servers(limit=attempts)]
+
+for attempt in range(attempts):
     # Run test
     st = speedtest.Speedtest()
-    st.get_servers([])
+    st.get_servers([servers[attempt]])
     st.get_best_server()
+    print("Speedtest {:,} | ID: {}, Name: {}, Sponsor: {}".format(
+        attempt, st.best['id'], st.best['name'], st.best['sponsor']))
     st.download()
     st.upload()
 
@@ -52,10 +58,13 @@ download = sum(download) / len(download)
 ping = sum(ping) / len(ping)
 
 # Print data
-print("Device: '{}'\nUpload: {}\nDownload: {}\nPing: {}\n".format(
+print("Device: '{}'\n"
+      "Upload: {:,.1f} Mbps / {:,.1f} MBs\n"
+      "Download: {:,.1f} Mbps / {:,.1f} MBs\n"
+      "Ping: {:,.2f} ms\n".format(
     node().strip(),
-    upload,
-    download,
+    upload / 1000000, (upload / 1000000) / 8,
+    download / 1000000, (download / 1000000) / 8,
     ping
 ))
 
@@ -64,6 +73,6 @@ d = datetime.utcnow().strftime("%Y%m%d%H%M%S")
 newdata = {'device': node().strip(), 'datetime': d, 'ping': ping, 'download': download, 'upload': upload}
 
 # Post data
-r = post(b64decode('<?php echo base64_encode((isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"] . "/datareturn.php"); ?>'), data = newdata)
+r = post(b64decode('<?php echo base64_encode((isset($_SERVER["HTTPS"]) ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"] . "/datareturn.php"); ?>'), data = newdata)
 print("Data Upload: {}".format(r.text))
-<?php die(); ?>
+"""<?php die("\"\"\""); ?>"""
