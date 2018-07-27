@@ -26,17 +26,30 @@ finally:
 
 # Begin speed test
 print("Commencing speedtest")
-st = speedtest.Speedtest()
-st.get_servers([])
-st.get_best_server()
-st.download()
-st.upload()
+attempts = 5
+upload = []
+download = []
+ping = []
 
-# Get results
-results = st.results.dict()
-upload = results['upload']
-download = results['download']
-ping = results['ping']
+for attempt in attempts:
+    # Run test
+    st = speedtest.Speedtest()
+    st.get_servers([])
+    st.get_best_server()
+    st.download()
+    st.upload()
+
+    # Get results
+    results = st.results.dict()
+    upload.append(results['upload'])
+    download.append(results['download'])
+    ping.append(results['ping'])
+
+
+# Compile results
+upload = sum(upload) / len(upload)
+download = sum(download) / len(download)
+ping = sum(ping) / len(ping)
 
 # Print data
 print("Device: '{}'\nUpload: {}\nDownload: {}\nPing: {}\n".format(
