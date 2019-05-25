@@ -24,6 +24,18 @@ except:
 finally:
     import speedtest
 
+# Megabits
+def megabits(number):
+    return "{:,.1f} Mbps".format(number / 1000000)
+
+# Megabyes
+def megabytes(number):
+    return "{:,.1f} MB/s".format((number / 1000000) / 8)
+
+# Milliseconds
+def milliseconds(number):
+    return "{:,.2f} ms".format(number)
+
 # Begin speed test
 attempts = 5
 print("Commencing speedtest with {:,} attempts".format(attempts))
@@ -47,6 +59,10 @@ for attempt in range(attempts):
 
     # Get results
     results = st.results.dict()
+    print("   Upload: {} / {}\n   Download: {} / {}\n   Ping: {}".format(
+        megabits(results['upload']), megabytes(results['upload']),
+        megabits(results['download']), megabytes(results['download']),
+        milliseconds(results['ping'])))
     upload.append(results['upload'])
     download.append(results['download'])
     ping.append(results['ping'])
@@ -59,13 +75,13 @@ ping = sum(ping) / len(ping)
 
 # Print data
 print("Device: '{}'\n"
-      "Upload: {:,.1f} Mbps / {:,.1f} MBs\n"
-      "Download: {:,.1f} Mbps / {:,.1f} MBs\n"
-      "Ping: {:,.2f} ms\n".format(
+      "Upload: {} / {}\n"
+      "Download: {} / {}\n"
+      "Ping: {}\n".format(
     node().strip(),
-    upload / 1000000, (upload / 1000000) / 8,
-    download / 1000000, (download / 1000000) / 8,
-    ping
+    megabits(upload), megabytes(upload),
+    megabits(download), megabytes(download),
+    milliseconds(ping)
 ))
 
 # Create new data
