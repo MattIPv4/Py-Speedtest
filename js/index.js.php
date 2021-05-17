@@ -148,8 +148,7 @@ var endpoints = [
     endpointExt + "168", // 24 * 7
     endpointExt + "720", // 24 * 30
     endpointExt + "4380", // 24 * (365 / 2)
-    endpointExt + "8760", // 24 * 365
-    endpointExt + "all"
+    endpointExt + "8760" // 24 * 365
 ];
 
 function getEndpointURL(index) {

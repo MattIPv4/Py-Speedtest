@@ -144,11 +144,10 @@ $device = $request;
                     <a href="javascript:changeEndpoint(2);" id="endpoint-2" class="btn btn-info">Two Days</a>
                     <a href="javascript:changeEndpoint(3);" id="endpoint-3" class="btn btn-info">Week</a>
                     <a href="javascript:changeEndpoint(4);" id="endpoint-4" class="btn btn-info">Month (30 days)</a>
-                    <a href="javascript:changeEndpoint(5);" id="endpoint-5" class="btn btn-info">Half Year</a>
                     <hr/>
-                    <i>These will cause extreme lag:</i><br/>
+                    <i>These will cause lag:</i><br/>
+                    <a href="javascript:changeEndpoint(5);" id="endpoint-5" class="btn btn-info">Half Year</a>
                     <a href="javascript:changeEndpoint(6);" id="endpoint-6" class="btn btn-info">Year</a>
-                    <a href="javascript:changeEndpoint(7);" id="endpoint-7" class="btn btn-info">All</a>
                 </div>
             </div>
         </div>
@@ -233,7 +232,7 @@ $device = $request;
                 <div class="card-body info text-center">
                     <h4 class="card-title">Average Upload <i class="fa fa-upload" aria-hidden="true"></i></h4>
                     <p class="card-text" id="avg-up"></p>
-                    <p class="card-text small">(Top/Bottom 1% data excluded)</p>
+                    <p class="card-text small">(Data outside 3SD excluded)</p>
                 </div>
             </div>
         </div>
@@ -242,7 +241,7 @@ $device = $request;
                 <div class="card-body info text-center">
                     <h4 class="card-title">Average Download <i class="fa fa-download" aria-hidden="true"></i></h4>
                     <p class="card-text" id="avg-dl"></p>
-                    <p class="card-text small">(Top/Bottom 1% data excluded)</p>
+                    <p class="card-text small">(Data outside 3SD excluded)</p>
                 </div>
             </div>
         </div>
@@ -251,7 +250,7 @@ $device = $request;
                 <div class="card-body info text-center">
                     <h4 class="card-title">Average Ping <i class="fa fa-heartbeat" aria-hidden="true"></i></h4>
                     <p class="card-text" id="avg-ping"></p>
-                    <p class="card-text small">(Top/Bottom 1% data excluded)</p>
+                    <p class="card-text small">(Data outside 3SD excluded)</p>
                 </div>
             </div>
         </div>
@@ -261,7 +260,7 @@ $device = $request;
                 <div class="card-body success text-center">
                     <h4 class="card-title">Top Upload <i class="fa fa-upload" aria-hidden="true"></i></h4>
                     <p class="card-text" id="top-up"></p>
-                    <p class="card-text small">(Top 1% data excluded)</p>
+                    <p class="card-text small">(Data outside 3SD excluded)</p>
                 </div>
             </div>
         </div>
@@ -270,7 +269,7 @@ $device = $request;
                 <div class="card-body success text-center">
                     <h4 class="card-title">Top Download <i class="fa fa-download" aria-hidden="true"></i></h4>
                     <p class="card-text" id="top-dl"></p>
-                    <p class="card-text small">(Top 1% data excluded)</p>
+                    <p class="card-text small">(Data outside 3SD excluded)</p>
                 </div>
             </div>
         </div>
@@ -279,7 +278,7 @@ $device = $request;
                 <div class="card-body success text-center">
                     <h4 class="card-title">Top Ping <i class="fa fa-heartbeat" aria-hidden="true"></i></h4>
                     <p class="card-text" id="top-ping"></p>
-                    <p class="card-text small">(Top 1% data excluded)</p>
+                    <p class="card-text small">(Data outside 3SD excluded)</p>
                 </div>
             </div>
         </div>
@@ -289,7 +288,7 @@ $device = $request;
                 <div class="card-body warn text-center">
                     <h4 class="card-title">Bottom Upload <i class="fa fa-upload" aria-hidden="true"></i></h4>
                     <p class="card-text" id="bottom-up"></p>
-                    <p class="card-text small">(Bottom 1% data excluded)</p>
+                    <p class="card-text small">(Data outside 3SD excluded)</p>
                 </div>
             </div>
         </div>
@@ -298,7 +297,7 @@ $device = $request;
                 <div class="card-body warn text-center">
                     <h4 class="card-title">Bottom Download <i class="fa fa-download" aria-hidden="true"></i></h4>
                     <p class="card-text" id="bottom-dl"></p>
-                    <p class="card-text small">(Bottom 1% data excluded)</p>
+                    <p class="card-text small">(Data outside 3SD excluded)</p>
                 </div>
             </div>
         </div>
@@ -307,7 +306,7 @@ $device = $request;
                 <div class="card-body warn text-center">
                     <h4 class="card-title">Bottom Ping <i class="fa fa-heartbeat" aria-hidden="true"></i></h4>
                     <p class="card-text" id="bottom-ping"></p>
-                    <p class="card-text small">(Bottom 1% data excluded)</p>
+                    <p class="card-text small">(Data outside 3SD excluded)</p>
                 </div>
             </div>
         </div>

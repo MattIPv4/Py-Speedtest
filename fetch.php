@@ -27,93 +27,72 @@ if (!in_array($_GET['device'], $devices)) {
 }
 
 try {
-
     $data = [];
     $time = (ctype_digit($_GET['time']) ? strtotime('-' . $_GET['time'] . ' hours') : $_GET['time']);
 
-    $stmt = $pdo->prepare('SELECT datetime, ping, download, upload FROM speeds WHERE device = ? ORDER BY datetime DESC');
-    $stmt->execute([$_GET['device']]);
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $row['datetimestamp'] = (DateTime::createFromFormat('YmdHis', $row['datetime']))->getTimestamp();
-        $row['datetime'] = gmdate('r', $row['datetimestamp']);
-        $row['ping'] = floatval($row['ping']);
-        $row['upload'] = floatval($row['upload']) / 1000000;
-        $row['download'] = floatval($row['download']) / 1000000;
+    $datetimestamp = 'UNIX_TIMESTAMP(STR_TO_DATE(datetime, \'%Y%m%d%H%i%s\'))';
 
-        if ($time == "current") {
-            $data = $row;
-            break;
-        }
+    $cols = <<<SQL
+    $datetimestamp AS datetimestamp,
+    DATE_FORMAT(STR_TO_DATE(datetime, '%Y%m%d%H%i%s'), '%Y-%m-%dT%TZ') AS datetime,
+    CAST(ping AS DECIMAL(10, 6)) AS ping,
+    CAST(download AS DECIMAL(20, 6)) / 1000000 AS download,
+    CAST(upload AS DECIMAL(20, 6)) / 1000000 AS upload
+SQL;
 
-        if (in_array($time, ["all", "average", "top", "bottom"])) {
-            $data[] = $row;
-            continue;
-        }
+    $cols_cast = [
+        ['ping', 'CAST(ping AS DECIMAL(10, 6))'],
+        ['download', 'CAST(download AS DECIMAL(20, 6)) / 1000000'],
+        ['upload', 'CAST(upload AS DECIMAL(20, 6)) / 1000000']
+    ];
 
-        if ($row['datetimestamp'] >= $time) {
-            $data[] = $row;
-        } else {
-            break;
-        }
+    // Handle time range
+    if (ctype_digit($time)) {
+        $query = "SELECT $cols FROM speeds WHERE device = ? AND $datetimestamp > ? ORDER BY datetimestamp DESC";
+        echo $query;
+        echo $time;
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([$_GET['device'], $time]);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    if (in_array($time, ["average", "top", "bottom"])) {
-        $keydata = [];
-        foreach ($data as $item) {
-            foreach ($item as $key => $var) {
-                if (!array_key_exists($key, $keydata)) {
-                    $keydata[$key] = [];
-                }
-                $keydata[$key][] = $var;
-            }
+    // Handle current
+    else if ($time == "current") {
+        $stmt = $pdo->prepare("SELECT $cols FROM speeds WHERE device = ? ORDER BY datetimestamp DESC LIMIT 1");
+        $stmt->execute([$_GET['device']]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Handle top/bottom/average
+    else if (in_array($time, ["average", "top", "bottom"])) {
+        $operator = ($time == "average" ? "AVG" : ($time == "top" ? "MAX" : "MIN"));
+        foreach ($cols_cast as &$col) {
+            $query = <<<SQL
+SELECT
+       COUNT(1) AS size,
+       $operator($col[1]) AS $col[0],
+       MAX($datetimestamp) - MIN($datetimestamp) AS datetimestamp
+FROM speeds
+WHERE device = ?
+  AND $col[1] < (
+        (SELECT AVG($col[1]) FROM speeds WHERE device = ?)
+        + (SELECT STD($col[1]) * 3 FROM speeds WHERE device = ?)
+    )
+  AND $col[1] > (
+        (SELECT AVG($col[1]) FROM speeds WHERE device = ?)
+        - (SELECT STD($col[1]) * 3 FROM speeds WHERE device = ?)
+    );
+SQL;
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([$_GET['device'], $_GET['device'], $_GET['device'], $_GET['device'], $_GET['device']]);
+            $col_data = $stmt->fetch(PDO::FETCH_ASSOC);
+            $data['size'] = array_key_exists('size', $data) ? max($data['size'], $col_data['size']) : $col_data['size'];
+            $data['datetimestamp'] = array_key_exists('datetimestamp', $data) ? max($data['datetimestamp'], $col_data['datetimestamp']) : $col_data['datetimestamp'];
+            $data[$col[0]] = $col_data[$col[0]];
         }
-        asort($keydata['ping']); // low to high
-        arsort($keydata['upload']); // high to low
-        arsort($keydata['download']); // high to low
-
-        $ping1per = round(count($keydata['ping']) * 0.01);
-        $up1per = round(count($keydata['upload']) * 0.01);
-        $dl1per = round(count($keydata['download']) * 0.01);
-
-        $keydata['ping'] = array_slice($keydata['ping'],
-            $ping1per,
-            count($keydata['ping']) - $ping1per
-        ); // 1% top/bottom excluded
-
-        $keydata['upload'] = array_slice($keydata['upload'],
-            $up1per,
-            count($keydata['upload']) - $up1per
-        ); // 1% top/bottom excluded
-
-        $keydata['download'] = array_slice($keydata['download'],
-            $dl1per,
-            count($keydata['download']) - $dl1per
-        ); // 1% top/bottom excluded
     }
-
-    if ($time == "average") {
-        $averages = $keydata;
-        unset($averages['datetime']);
-        $averages['size'] = count($data);
-        $averages['ping'] = array_sum($averages['ping']) / count($averages['ping']);
-        $averages['upload'] = array_sum($averages['upload']) / count($averages['upload']);
-        $averages['download'] = array_sum($averages['download']) / count($averages['download']);
-        $averages['datetimestamp'] = max($averages['datetimestamp']) - min($averages['datetimestamp']); // Seconds
-        $data = $averages;
-    }
-    if ($time == "top" || $time == "bottom") {
-        $topdata = $keydata;
-        unset($topdata['datetime']);
-        $topdata['size'] = count($data);
-
-        $topdata['ping'] = ($time == "top" ? 'min' : 'max')($topdata['ping']);
-        $topdata['upload'] = ($time == "top" ? 'max' : 'min')($topdata['upload']);
-        $topdata['download'] = ($time == "top" ? 'max' : 'min')($topdata['download']);
-        $data = $topdata;
-    }
-
 } catch (Exception $e) {
-    //echo 'Data Export: Get Data: Caught exception: ',  $e->getMessage();
+    echo 'Data Export: Get Data: Caught exception: ',  $e->getMessage();
     die('Get failure');
 }
 
